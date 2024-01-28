@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src\Atlassian.Bitbucket.Api
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{199180C6-6CE2-45A1-8557-B928EFFEFD48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlassian.Bitbucket.Application", "src\Atlassian.Bitbucket.Application\Atlassian.Bitbucket.Application.csproj", "{092C30F0-9DAA-45AD-AC90-D180F1AA19F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,8 +16,13 @@ Global
 		{387545A7-D43E-4C6B-8405-80EAB3909BC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{387545A7-D43E-4C6B-8405-80EAB3909BC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{387545A7-D43E-4C6B-8405-80EAB3909BC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{092C30F0-9DAA-45AD-AC90-D180F1AA19F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{092C30F0-9DAA-45AD-AC90-D180F1AA19F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{092C30F0-9DAA-45AD-AC90-D180F1AA19F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{092C30F0-9DAA-45AD-AC90-D180F1AA19F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{387545A7-D43E-4C6B-8405-80EAB3909BC7} = {199180C6-6CE2-45A1-8557-B928EFFEFD48}
+		{092C30F0-9DAA-45AD-AC90-D180F1AA19F5} = {199180C6-6CE2-45A1-8557-B928EFFEFD48}
 	EndGlobalSection
 EndGlobal
