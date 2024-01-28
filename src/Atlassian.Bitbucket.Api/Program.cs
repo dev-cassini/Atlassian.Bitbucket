@@ -1,3 +1,4 @@
+using Atlassian.Bitbucket.Api.Endpoints;
 using Atlassian.Bitbucket.Application;
 using Atlassian.Bitbucket.Infrastructure;
 using Atlassian.Bitbucket.Infrastructure.Messaging.MassTransit.Transports.Azure;
@@ -34,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app
+    .RegisterEndpoints()
+    .UseHttpsRedirection();
 
 app.Run();

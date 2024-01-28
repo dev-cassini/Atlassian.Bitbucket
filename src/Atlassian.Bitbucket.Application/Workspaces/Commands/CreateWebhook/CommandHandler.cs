@@ -9,9 +9,8 @@ public class CommandHandler(HttpClient httpClient) : IRequestHandler<Command, Un
     public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
     {
         var content = JsonConvert.SerializeObject(request);
-        
         var response = await httpClient.PostAsync(
-            new Uri("workspaces/dev-falc/hooks"),
+            "workspaces/dev-falc/hooks",
             new StringContent(content, Encoding.UTF8, "application/json"),
             cancellationToken);
 
