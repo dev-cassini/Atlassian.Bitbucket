@@ -1,4 +1,5 @@
 using Atlassian.Bitbucket.Application.Auth.GrantTypes;
+using Atlassian.Bitbucket.Application.Auth.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ internal static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         serviceCollection
+            .AddHttpMessageHandlers()
             .AddTokenStore()
             .AddClientCredentialsServices(configuration);
         
