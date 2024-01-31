@@ -1,3 +1,4 @@
+using Atlassian.Bitbucket.Application.Tooling.Events;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ internal static class ServiceCollectionExtensions
         Action<Transports.Configurator> transportConfiguratorAction)
     {
         serviceCollection
+            .AddScoped<IPublisher, Publisher>()
             .AddMassTransit(configurator =>
             {
                 var transportConfigurator = new Transports.Configurator(serviceCollection, configurator);
