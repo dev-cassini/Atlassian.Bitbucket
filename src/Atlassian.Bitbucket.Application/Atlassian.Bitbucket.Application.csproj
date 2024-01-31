@@ -12,5 +12,9 @@
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Atlassian.Bitbucket.Domain\Atlassian.Bitbucket.Domain.csproj" />
+    </ItemGroup>
     
 </Project>
