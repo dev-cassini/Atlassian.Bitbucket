@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Atlassian.Bitbucket.Infrastructure\Atlassian.Bitbucket.Infrastructure.csproj" />
+      <ProjectReference Include="..\Atlassian.Bitbucket.Integrations.Outbound.Notifications\Atlassian.Bitbucket.Integrations.Outbound.Notifications.csproj" />
+    </ItemGroup>
+
+
+</Project>
