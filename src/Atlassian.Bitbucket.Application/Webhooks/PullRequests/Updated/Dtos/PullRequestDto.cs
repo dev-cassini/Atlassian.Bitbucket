@@ -7,7 +7,7 @@ public record PullRequestDto(
     [JsonProperty("comment_count")] int CommentCount,
     [JsonProperty("task_count")] int TaskCount,
     string State,
-    [JsonProperty("merge_commit")] MergeCommitDto MergeCommit,
+    [JsonProperty("merge_commit")] MergeCommitDto? MergeCommit,
     AuthorDto Author,
     [JsonProperty("created_on")] DateTimeOffset CreatedOn,
     [JsonProperty("updated_on")] DateTimeOffset UpdatedOn);

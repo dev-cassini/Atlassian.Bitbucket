@@ -1,35 +1,42 @@
-using Atlassian.Bitbucket.Application.Tooling.Events;
 using Atlassian.Bitbucket.Domain.Events;
 using Atlassian.Bitbucket.Integrations.Outbound.Notifications.PullRequests;
-using MassTransit;
+using MediatR;
+using IPublisher = Atlassian.Bitbucket.Application.Tooling.Events.IPublisher;
 
 namespace Atlassian.Bitbucket.Integrations.Outbound.PullRequests;
 
-public class PullRequestMergedSender(IPublisher publisher) : IConsumer<PullRequestUpdated>
+using GetDiffStats = Application.Commits.Queries.GetDiffStats;
+
+public class PullRequestMergedSender(
+    IPublisher publisher,
+    ISender mediator) : INotificationHandler<PullRequestUpdated>
 {
-    public async Task Consume(ConsumeContext<PullRequestUpdated> context)
+    public async Task Handle(PullRequestUpdated notification, CancellationToken cancellationToken)
     {
-        if (context.Message.State is not "MERGED")
+        if (notification.State is not "MERGED")
         {
             return;
         }
+
+        var request = new GetDiffStats.Query(notification.RepositoryId, notification.MergeCommitHash!);
+        var response = await mediator.Send(request, cancellationToken);
         
         var @event = new PullRequestMerged(
-            context.Message.Id,
-            context.Message.RepositoryId,
-            context.Message.AuthorId,
-            context.Message.CommentCount,
-            context.Message.TaskCount,
-            1,
-            1,
-            1,
-            1,
-            1,
-            context.Message.State,
-            context.Message.MergeCommitHash,
-            context.Message.CreatedOn,
-            context.Message.UpdatedOn);
+            notification.Id,
+            notification.RepositoryId,
+            notification.AuthorId,
+            notification.CommentCount,
+            notification.TaskCount,
+            response.Values.Sum(x => x.LinesAdded),
+            response.Values.Sum(x => x.LinesRemoved),
+            response.Values.Count(x => x.Status == "added"),
+            response.Values.Count(x => x.Status == "updated"),
+            response.Values.Count(x => x.Status == "removed"),
+            notification.State,
+            notification.MergeCommitHash,
+            notification.CreatedOn,
+            notification.UpdatedOn);
 
-        await publisher.PublishAsync(@event, context.CancellationToken);
+        await publisher.PublishAsync(@event, cancellationToken);
     }
 }

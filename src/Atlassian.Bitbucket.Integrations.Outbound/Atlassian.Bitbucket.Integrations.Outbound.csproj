@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Atlassian.Bitbucket.Infrastructure\Atlassian.Bitbucket.Infrastructure.csproj" />
+      <ProjectReference Include="..\Atlassian.Bitbucket.Application\Atlassian.Bitbucket.Application.csproj" />
       <ProjectReference Include="..\Atlassian.Bitbucket.Integrations.Outbound.Notifications\Atlassian.Bitbucket.Integrations.Outbound.Notifications.csproj" />
     </ItemGroup>
 

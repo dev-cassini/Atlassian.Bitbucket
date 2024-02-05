@@ -8,6 +8,7 @@
     
     <ItemGroup>
       <ProjectReference Include="..\Atlassian.Bitbucket.Application\Atlassian.Bitbucket.Application.csproj" />
+      <ProjectReference Include="..\Atlassian.Bitbucket.Integrations.Outbound\Atlassian.Bitbucket.Integrations.Outbound.csproj" />
     </ItemGroup>
     
     <ItemGroup>

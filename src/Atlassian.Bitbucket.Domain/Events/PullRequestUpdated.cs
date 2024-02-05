@@ -1,3 +1,5 @@
+using MediatR;
+
 namespace Atlassian.Bitbucket.Domain.Events;
 
 public record PullRequestUpdated(
@@ -9,4 +11,4 @@ public record PullRequestUpdated(
     string State, 
     string? MergeCommitHash, 
     DateTimeOffset CreatedOn, 
-    DateTimeOffset UpdatedOn);
+    DateTimeOffset UpdatedOn) : INotification;

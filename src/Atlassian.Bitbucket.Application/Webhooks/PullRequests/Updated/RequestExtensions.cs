@@ -13,7 +13,7 @@ internal static class RequestExtensions
             request.PullRequest.CommentCount,
             request.PullRequest.TaskCount,
             request.PullRequest.State,
-            request.PullRequest.MergeCommit.Hash,
+            request.PullRequest.MergeCommit?.Hash,
             request.PullRequest.CreatedOn,
             request.PullRequest.UpdatedOn);
     }
