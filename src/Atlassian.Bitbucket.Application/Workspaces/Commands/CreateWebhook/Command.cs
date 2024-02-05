@@ -11,4 +11,4 @@ namespace Atlassian.Bitbucket.Application.Workspaces.Commands.CreateWebhook;
 public record Command(
     string Description,
     string Url,
-    IEnumerable<string> Events) : IRequest<Unit>;
+    IEnumerable<string> Events) : IRequest;
