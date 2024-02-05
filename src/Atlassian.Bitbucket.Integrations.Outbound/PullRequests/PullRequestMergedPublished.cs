@@ -7,7 +7,7 @@ namespace Atlassian.Bitbucket.Integrations.Outbound.PullRequests;
 
 using GetDiffStats = Application.Commits.Queries.GetDiffStats;
 
-public class PullRequestMergedSender(
+public class PullRequestMergedPublished(
     IPublisher publisher,
     ISender mediator) : INotificationHandler<PullRequestUpdated>
 {
