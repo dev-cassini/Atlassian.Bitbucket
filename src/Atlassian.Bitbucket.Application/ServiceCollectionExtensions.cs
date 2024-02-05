@@ -1,4 +1,5 @@
 using Atlassian.Bitbucket.Application.Auth;
+using Atlassian.Bitbucket.Application.Commits;
 using Atlassian.Bitbucket.Application.Workspaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ public static class ServiceCollectionExtensions
     {
         serviceCollection
             .AddAuthServices(configuration)
+            .AddCommitServices()
             .AddWorkspaceServices();
         
         return serviceCollection;
