@@ -52,4 +52,4 @@ jobs:
 
       # Publish all NuGet packages to personal GitHub Packages
       - name: Publish NuGet package
-        run: dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg --api-key ${{ secrets.PUBLIC_ACCESS_TOKEN }} --source https://nuget.pkg.github.com/falc33/index.json
+        run: dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg --api-key ${{ secrets.PUBLIC_ACCESS_TOKEN }} --source https://nuget.pkg.github.com/dev-cassini/index.json
