@@ -1,3 +1,4 @@
+using Atlassian.Bitbucket.Domain.Enums;
 using Atlassian.Bitbucket.Domain.Events;
 using Atlassian.Bitbucket.Integrations.Outbound.Notifications.PullRequests;
 using MediatR;
@@ -13,7 +14,7 @@ public class PullRequestMergedPublisher(
 {
     public async Task Handle(PullRequestUpdated notification, CancellationToken cancellationToken)
     {
-        if (notification.State is not "MERGED")
+        if (notification.State is not PullRequestStates.Merged)
         {
             return;
         }

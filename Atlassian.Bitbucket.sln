@@ -14,6 +14,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlassian.Bitbucket.Integra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlassian.Bitbucket.Integrations.Outbound.Notifications", "src\Atlassian.Bitbucket.Integrations.Outbound.Notifications\Atlassian.Bitbucket.Integrations.Outbound.Notifications.csproj", "{98874F92-BBCB-492D-97B2-CFE0E4580045}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E91E1D71-59D1-4D08-BEE3-63E50746F832}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlassian.Bitbucket.Api.Test.Component", "test\Atlassian.Bitbucket.Api.Test.Component\Atlassian.Bitbucket.Api.Test.Component.csproj", "{F8670C44-4104-41B3-A52E-E8072560494F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlassian.Bitbucket.Builders", "test\Atlassian.Bitbucket.Builders\Atlassian.Bitbucket.Builders.csproj", "{2AFE8B0F-1B0A-47BE-8388-885BE2F9CBBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +50,14 @@ Global
 		{98874F92-BBCB-492D-97B2-CFE0E4580045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98874F92-BBCB-492D-97B2-CFE0E4580045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98874F92-BBCB-492D-97B2-CFE0E4580045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8670C44-4104-41B3-A52E-E8072560494F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8670C44-4104-41B3-A52E-E8072560494F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8670C44-4104-41B3-A52E-E8072560494F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8670C44-4104-41B3-A52E-E8072560494F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AFE8B0F-1B0A-47BE-8388-885BE2F9CBBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AFE8B0F-1B0A-47BE-8388-885BE2F9CBBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AFE8B0F-1B0A-47BE-8388-885BE2F9CBBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AFE8B0F-1B0A-47BE-8388-885BE2F9CBBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{387545A7-D43E-4C6B-8405-80EAB3909BC7} = {199180C6-6CE2-45A1-8557-B928EFFEFD48}
@@ -52,5 +66,7 @@ Global
 		{195EC384-DAAA-42A3-8F93-FE0883AD4B74} = {199180C6-6CE2-45A1-8557-B928EFFEFD48}
 		{E9E958B5-8056-49A8-B3FB-C608D4BF4419} = {199180C6-6CE2-45A1-8557-B928EFFEFD48}
 		{98874F92-BBCB-492D-97B2-CFE0E4580045} = {199180C6-6CE2-45A1-8557-B928EFFEFD48}
+		{F8670C44-4104-41B3-A52E-E8072560494F} = {E91E1D71-59D1-4D08-BEE3-63E50746F832}
+		{2AFE8B0F-1B0A-47BE-8388-885BE2F9CBBA} = {E91E1D71-59D1-4D08-BEE3-63E50746F832}
 	EndGlobalSection
 EndGlobal
