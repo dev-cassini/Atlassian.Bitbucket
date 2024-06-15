@@ -1,8 +1,8 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Atlassian.Bitbucket.Application.Commits.Queries.GetDiffStats.Dtos;
 
 public record DiffStatDto(
-    [JsonProperty("lines_added")] int LinesAdded,
-    [JsonProperty("lines_removed")] int LinesRemoved,
+    [property: JsonPropertyName("lines_added")] int LinesAdded,
+    [property: JsonPropertyName("lines_removed")] int LinesRemoved,
     string Status);

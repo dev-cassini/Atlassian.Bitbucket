@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Atlassian.Bitbucket.Application.Auth;
 
 public record Token(
-    [JsonProperty("access_token")] string AccessToken,
-    [JsonProperty("expires_in")] string ExpiresInSeconds);
+    [property: JsonPropertyName("access_token")] string AccessToken,
+    [property: JsonPropertyName("expires_in")] string ExpiresInSeconds);

@@ -1,5 +1,5 @@
+using System.Text.Json;
 using MediatR;
-using Newtonsoft.Json;
 
 namespace Atlassian.Bitbucket.Application.Commits.Queries.GetDiffStats;
 
@@ -11,7 +11,7 @@ public class QueryHandler(HttpClient httpClient) : IRequestHandler<Query, Respon
             $"repositories/dev-falc/{request.RepositoryId}/diffstat/{request.CommitHash}",
             cancellationToken);
 
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        return JsonConvert.DeserializeObject<Response>(content)!;
+        var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        return await JsonSerializer.DeserializeAsync<Response>(contentStream, cancellationToken: cancellationToken) ?? throw new Exception("Failed to deserialize diff stat response.");
     }
 }

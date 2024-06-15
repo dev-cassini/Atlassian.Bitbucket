@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Atlassian.Bitbucket.Application.Auth.GrantTypes.ClientCredentials;
 
@@ -16,11 +16,11 @@ public class HttpClient(System.Net.Http.HttpClient httpClient, ITokenStore token
             requestContent,
             cancellationToken);
 
-        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        var token = JsonConvert.DeserializeObject<Token>(responseContent);
+        var responseContentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        var token = await JsonSerializer.DeserializeAsync<Token>(responseContentStream, cancellationToken: cancellationToken);
         if (token is null)
         {
-            throw new Exception();
+            throw new Exception("Failed to deserialize token response.");
         }
         
         tokenStore.Tokens.Clear();

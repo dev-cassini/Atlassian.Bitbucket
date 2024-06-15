@@ -1,7 +1,6 @@
 using System.Text;
+using System.Text.Json;
 using MediatR;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Atlassian.Bitbucket.Application.Workspaces.Commands.CreateWebhook;
 
@@ -9,15 +8,13 @@ public class CommandHandler(HttpClient httpClient) : IRequestHandler<Command>
 {
     public async Task Handle(Command request, CancellationToken cancellationToken)
     {
-        var content = JsonConvert.SerializeObject(request, new JsonSerializerSettings
+        var jsonSerializeOptions = new JsonSerializerOptions
         {
-            ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new SnakeCaseNamingStrategy()
-            }
-        });
+            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+        };
+        var content = JsonSerializer.Serialize(request, jsonSerializeOptions);
         
-        var response = await httpClient.PostAsync(
+        await httpClient.PostAsync(
             "workspaces/dev-falc/hooks",
             new StringContent(content, Encoding.UTF8, "application/json"),
             cancellationToken);

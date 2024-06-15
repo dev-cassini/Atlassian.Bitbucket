@@ -8,7 +8,8 @@ public static class WebhookEndpoint
 {
     public static WebApplication RegisterPullRequestUpdatedWebhookEndpoint(this WebApplication webApplication)
     {
-        webApplication.MapPost("/webhooks/pull-requests/updated", CreateWebhook)
+        webApplication.MapPost("/webhooks/pull-requests/updated", Handler)
+            .Accepts<PullRequests.Updated.Request>("application/json")
             .AllowAnonymous()
             .WithTags(nameof(Workspaces))
             .Produces(StatusCodes.Status204NoContent);
@@ -22,7 +23,7 @@ public static class WebhookEndpoint
     /// <param name="request">Request.</param>
     /// <param name="mediator">Mediator.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    private static async Task<IResult> CreateWebhook(
+    private static async Task<IResult> Handler(
         PullRequests.Updated.Request request,
         IMediator mediator,
         CancellationToken cancellationToken)

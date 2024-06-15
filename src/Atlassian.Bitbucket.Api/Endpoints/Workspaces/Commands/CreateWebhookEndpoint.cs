@@ -8,7 +8,7 @@ public static class CreateWebhookEndpoint
 {
     public static WebApplication RegisterCreateWebhookEndpoint(this WebApplication webApplication)
     {
-        webApplication.MapPost("/workspaces/dev-falc/webhooks", CreateWebhook)
+        webApplication.MapPost("/workspaces/dev-falc/webhooks", Handler)
             .AllowAnonymous()
             .WithTags(nameof(Workspaces))
             .Produces(StatusCodes.Status204NoContent);
@@ -22,7 +22,7 @@ public static class CreateWebhookEndpoint
     /// <param name="command">Command.</param>
     /// <param name="mediator">Mediator.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    private static async Task<IResult> CreateWebhook(
+    private static async Task<IResult> Handler(
         CreateWebhook.Command command,
         IMediator mediator,
         CancellationToken cancellationToken)
