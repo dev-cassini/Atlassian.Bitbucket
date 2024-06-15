@@ -11,7 +11,10 @@ internal static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         serviceCollection
-            .AddBitbucketClient(configuration.GetSection(nameof(Client)).Bind)
+            .AddBitbucketClient(configuration
+                .GetSection(nameof(Bitbucket))
+                .GetSection(nameof(Client))
+                .Bind)
             .AddBitbucketClientCredentialsHttpClient();
         
         return serviceCollection;

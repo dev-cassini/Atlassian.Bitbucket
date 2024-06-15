@@ -21,7 +21,8 @@ internal static class ServiceCollectionExtensions
     {
         serviceCollection.AddHttpClient<IHttpClient, HttpClient>((serviceProvider, httpClient) =>
         {
-            httpClient.BaseAddress = new Uri("https://bitbucket.org/site/oauth2/");
+            var bitbucket = serviceProvider.GetRequiredService<IOptions<Configuration>>().Value;
+            httpClient.BaseAddress = new Uri(bitbucket.OAuthBaseUrl);
 
             var bitbucketClient = serviceProvider.GetRequiredService<IOptions<Client>>().Value;
             httpClient.SetBasicAuthentication(bitbucketClient.Id, bitbucketClient.Secret);

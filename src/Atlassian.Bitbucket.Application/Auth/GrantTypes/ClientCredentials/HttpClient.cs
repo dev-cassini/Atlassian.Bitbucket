@@ -12,7 +12,7 @@ public class HttpClient(System.Net.Http.HttpClient httpClient, ITokenStore token
         });
         
         var response = await httpClient.PostAsync(
-            "access_token",
+            "/access_token",
             requestContent,
             cancellationToken);
 

@@ -8,7 +8,7 @@ public class QueryHandler(HttpClient httpClient) : IRequestHandler<Query, Respon
     public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
     {
         var response = await httpClient.GetAsync(
-            $"repositories/dev-falc/{request.RepositoryId}/diffstat/{request.CommitHash}",
+            $"/repositories/dev-falc/{request.RepositoryId}/diffstat/{request.CommitHash}",
             cancellationToken);
 
         var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);

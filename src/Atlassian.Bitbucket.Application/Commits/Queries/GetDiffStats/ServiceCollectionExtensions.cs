@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Atlassian.Bitbucket.Application.Commits.Queries.GetDiffStats;
 
@@ -7,9 +8,10 @@ internal static class ServiceCollectionExtensions
 {
     internal static IServiceCollection AddGetCommitDiffStatQuery(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddHttpClient<IRequestHandler<Query, Response>, QueryHandler>(client =>
+        serviceCollection.AddHttpClient<IRequestHandler<Query, Response>, QueryHandler>((serviceProvider, httpClient) =>
             {
-                client.BaseAddress = new Uri("https://api.bitbucket.org/2.0/");
+                var bitbucket = serviceProvider.GetRequiredService<IOptions<Configuration>>().Value;
+                httpClient.BaseAddress = new Uri(bitbucket.ApiBaseUrl);
             })
             .AddHttpMessageHandler<Auth.Http.Handler>();
         

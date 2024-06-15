@@ -13,6 +13,10 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         serviceCollection
+            .AddOptions<Configuration>()
+            .Configure(configuration.GetSection(nameof(Bitbucket)).Bind);
+        
+        serviceCollection
             .AddAuthServices(configuration)
             .AddCommitServices()
             .AddWorkspaceServices();

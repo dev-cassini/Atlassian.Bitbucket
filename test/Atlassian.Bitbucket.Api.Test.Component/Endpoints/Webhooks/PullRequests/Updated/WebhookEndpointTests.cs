@@ -1,7 +1,10 @@
 using System.Net;
 using System.Net.Http.Json;
+using Atlassian.Bitbucket.Builders.Application.Commits.Queries.GetDiffStats;
 using Atlassian.Bitbucket.Builders.Application.Webhooks.PullRequests.Updated;
 using Atlassian.Bitbucket.Domain.Enums;
+using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
 
 namespace Atlassian.Bitbucket.Api.Test.Component.Endpoints.Webhooks.PullRequests.Updated;
 
@@ -9,9 +12,22 @@ namespace Atlassian.Bitbucket.Api.Test.Component.Endpoints.Webhooks.PullRequests
 public class WebhookEndpointTests
 {
     [Test]
-    public async Task WhenRequestIsForAnOpenPullRequest_ThenResponseIs204NoContent()
+    public async Task WhenRequestIsForAMergePullRequest_ThenResponseIs204NoContent()
     {
-        var request = new RequestBuilder().State(PullRequestStates.Open).Build();
+        var request = new RequestBuilder().State(PullRequestStates.Merged).Build();
+        var commitDiffStatResponse = new ResponseBuilder().Build();
+
+        OneTimeSetUpFixture.WireMockServer
+            .Given(
+                Request.Create()
+                    .WithPath(
+                        $"/repositories/dev-falc/{request.Repository.Uuid}/diffstat/{request.PullRequest.MergeCommit?.Hash}")
+                    .UsingGet())
+            .RespondWith(
+                Response.Create()
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithBodyAsJson(commitDiffStatResponse)
+                );
         
         var httpClient = OneTimeSetUpFixture.HttpClient;
         var response = await httpClient.PostAsJsonAsync("/webhooks/pull-requests/updated", request);
