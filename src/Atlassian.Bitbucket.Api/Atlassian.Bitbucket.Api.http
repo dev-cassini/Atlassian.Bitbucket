@@ -1,0 +1,27 @@
+@Atlassian.Bitbucket.Api_HostAddress = http://localhost:5140
+
+POST {{Atlassian.Bitbucket.Api_HostAddress}}/webhooks/pull-requests/updated
+Content-Type: application/json
+
+{
+  "repository": {
+    "uuid": "{{$random.uuid}}"
+  },
+  "pull_request": {
+    "id": {{$random.integer()}},
+    "comment_count": 1,
+    "task_count": 2,
+    "state": "OPEN",
+    "merge_commit": {
+      "hash": "{{$random.uuid}}"
+    },
+    "author": {
+      "uuid": "{{$random.uuid}}",
+      "display_name": "cassini"
+    },
+    "created_on": "2024-01-17T22:59:55.5345770+00:00",
+    "updated_on": "2024-01-17T22:59:55.5345770+00:00"
+  }
+}
+
+###
