@@ -1,5 +1,6 @@
 using System.Net;
 using MassTransit.Testing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
@@ -15,6 +16,7 @@ public static class OneTimeSetUpFixture
     public static HttpClient HttpClient => CustomWebApplicationFactory.CreateClient();
     public static ITestHarness TestHarness { get; private set; } = null!;
     public static WireMockServer WireMockServer { get; private set; } = null!;
+    public static IConfiguration Configuration { get; private set; } = null!;
     
     [OneTimeSetUp]
     public static void OneTimeSetUp()
@@ -23,6 +25,7 @@ public static class OneTimeSetUpFixture
         
         CustomWebApplicationFactory = new CustomWebApplicationFactory();
         TestHarness = CustomWebApplicationFactory.Services.GetRequiredService<ITestHarness>();
+        Configuration = CustomWebApplicationFactory.Services.GetRequiredService<IConfiguration>();
         
         WireMockServer
             .Given(Request.Create().WithPath("/access_token")
