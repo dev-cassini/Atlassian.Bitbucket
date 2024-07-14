@@ -9,13 +9,6 @@ namespace Atlassian.Bitbucket.Api.Test.Component.RateLimiting;
 [TestFixture]
 public class GlobalRateLimiterTests
 {
-    [OneTimeTearDown]
-    public void OneTimeTearDown()
-    {
-        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentPermitLimit"] = "999";
-        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentQueueLimit"] = "999";
-    }
-
     /// <summary>
     /// Dispose and rebuild web application factory so that rate limiter counts are reset.
     /// </summary>
@@ -23,15 +16,24 @@ public class GlobalRateLimiterTests
     public async Task SetUpAsync()
     {
         await OneTimeSetUpFixture.DisposeAndRebuildAsync();
-        
-        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentPermitLimit"] = "1";
-        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentQueueLimit"] = "0";
+    }
+    
+    [TearDown]
+    public void TearDown()
+    {
+        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentPermitLimit"] = "999";
+        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentQueueLimit"] = "999";
+        OneTimeSetUpFixture.Configuration["RateLimiting:FixedWindowPermitLimit"] = "999";
+        OneTimeSetUpFixture.Configuration["RateLimiting:FixedWindowQueueLimit"] = "999";
     }
     
     [Test]
-    public async Task WhenConcurrentRequestsAreSubmitted_ThenOnlyOneIsProcessed()
+    public async Task WhenNumberOfConcurrentRequestsExceedsPermitLimit_Then429TooManyRequestsIsReturned()
     {
         // Arrange
+        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentPermitLimit"] = "1";
+        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentQueueLimit"] = "0";
+        
         var httpClient = OneTimeSetUpFixture.HttpClient;
         
         var task1 = Task.Run(async () => await httpClient.GetAsync("/health"));
@@ -46,6 +48,27 @@ public class GlobalRateLimiterTests
         {
             Assert.That(results.Count(x => x.StatusCode is HttpStatusCode.OK), Is.EqualTo(1));
             Assert.That(results.Count(x => x.StatusCode is HttpStatusCode.TooManyRequests), Is.EqualTo(1));
+        });
+    }
+    
+    [Test]
+    public async Task WhenNumberOfRequestsExceedsFixedWindowPermitLimit_Then429TooManyRequestsIsReturned()
+    {
+        // Arrange
+        OneTimeSetUpFixture.Configuration["RateLimiting:FixedWindowPermitLimit"] = "1";
+        OneTimeSetUpFixture.Configuration["RateLimiting:FixedWindowQueueLimit"] = "0";
+        
+        var httpClient = OneTimeSetUpFixture.HttpClient;
+
+        // Act
+        var response1 = await httpClient.GetAsync("/health");
+        var response2 = await httpClient.GetAsync("/health");
+
+        // Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(response1.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response2.StatusCode, Is.EqualTo(HttpStatusCode.TooManyRequests));
         });
     }
 }
