@@ -9,18 +9,23 @@ namespace Atlassian.Bitbucket.Api.Test.Component.RateLimiting;
 [TestFixture]
 public class GlobalRateLimiterTests
 {
-    [OneTimeSetUp]
-    public void OneTimeSetUp()
-    {
-        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentPermitLimit"] = "1";
-        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentQueueLimit"] = "0";
-    }
-
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {
         OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentPermitLimit"] = "999";
         OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentQueueLimit"] = "999";
+    }
+
+    /// <summary>
+    /// Dispose and rebuild web application factory so that rate limiter counts are reset.
+    /// </summary>
+    [SetUp]
+    public async Task SetUpAsync()
+    {
+        await OneTimeSetUpFixture.DisposeAndRebuildAsync();
+        
+        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentPermitLimit"] = "1";
+        OneTimeSetUpFixture.Configuration["RateLimiting:ConcurrentQueueLimit"] = "0";
     }
     
     [Test]
