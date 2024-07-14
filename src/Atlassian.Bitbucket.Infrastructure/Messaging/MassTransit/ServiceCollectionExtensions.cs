@@ -11,7 +11,7 @@ internal static class ServiceCollectionExtensions
         Action<Transports.Configurator> transportConfiguratorAction)
     {
         serviceCollection
-            .AddScoped<IPublisher, Publisher>()
+            .AddScoped<IEventPublisher, EventPublisher>()
             .AddMassTransit(configurator =>
             {
                 var transportConfigurator = new Transports.Configurator(serviceCollection, configurator);

@@ -1,15 +1,15 @@
+using Atlassian.Bitbucket.Application.Tooling.Events;
 using Atlassian.Bitbucket.Domain.Enums;
 using Atlassian.Bitbucket.Domain.Events;
 using Atlassian.Bitbucket.Integrations.Outbound.Notifications.PullRequests;
 using MediatR;
-using IPublisher = Atlassian.Bitbucket.Application.Tooling.Events.IPublisher;
 
 namespace Atlassian.Bitbucket.Integrations.Outbound.PullRequests;
 
 using GetDiffStats = Application.Commits.Queries.GetDiffStats;
 
 public class PullRequestMergedPublisher(
-    IPublisher publisher,
+    IEventPublisher eventPublisher,
     ISender mediator) : INotificationHandler<PullRequestUpdated>
 {
     public async Task Handle(PullRequestUpdated notification, CancellationToken cancellationToken)
@@ -38,6 +38,6 @@ public class PullRequestMergedPublisher(
             notification.CreatedOn,
             notification.UpdatedOn);
 
-        await publisher.PublishAsync(@event, cancellationToken);
+        await eventPublisher.PublishAsync(@event, cancellationToken);
     }
 }
