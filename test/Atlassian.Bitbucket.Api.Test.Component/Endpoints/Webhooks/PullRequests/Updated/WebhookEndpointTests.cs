@@ -14,6 +14,7 @@ public class WebhookEndpointTests
     [Test]
     public async Task WhenRequestIsForAMergePullRequest_ThenResponseIs204NoContent()
     {
+        // Arrange
         var request = new RequestBuilder().State(PullRequestStates.Merged).Build();
         var commitDiffStatResponse = new ResponseBuilder().Build();
 
@@ -30,8 +31,11 @@ public class WebhookEndpointTests
                 );
         
         var httpClient = OneTimeSetUpFixture.HttpClient;
+
+        // Act
         var response = await httpClient.PostAsJsonAsync("/webhooks/pull-requests/updated", request);
         
+        // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
     }
 }

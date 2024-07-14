@@ -11,7 +11,6 @@ public static class WebhookEndpoint
         webApplication.MapPost("/webhooks/pull-requests/updated", Handler)
             .Accepts<PullRequests.Updated.Request>("application/json")
             .AllowAnonymous()
-            .RequireRateLimiting("webhooks")
             .WithTags(nameof(Workspaces))
             .Produces(StatusCodes.Status204NoContent);
 

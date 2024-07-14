@@ -4,13 +4,13 @@ using Microsoft.Extensions.Options;
 
 namespace Atlassian.Bitbucket.Api.RateLimiting.Policies;
 
-public class CustomSlidingWindowRateLimiter : IRateLimiterPolicy<string>
+public class CustomFixedWindowRateLimiter : IRateLimiterPolicy<string>
 {
     private readonly IOptionsMonitor<Configuration> _configurationSnapshot;
-
-    public CustomSlidingWindowRateLimiter(IOptionsMonitor<Configuration> optionsSnapshot)
+    
+    public CustomFixedWindowRateLimiter(IOptionsMonitor<Configuration> optionsSnapshot)
     {
-        OnRejected = (ctx, token) =>
+        OnRejected = (ctx, _) =>
         {
             ctx.HttpContext.Response.StatusCode = StatusCodes.Status418ImATeapot;
             return ValueTask.CompletedTask;
@@ -23,14 +23,18 @@ public class CustomSlidingWindowRateLimiter : IRateLimiterPolicy<string>
 
     public RateLimitPartition<string> GetPartition(HttpContext httpContext)
     {
-        return RateLimitPartition.GetSlidingWindowLimiter(string.Empty,
-            _ => new SlidingWindowRateLimiterOptions
+        return CreatePartition(_configurationSnapshot.CurrentValue);
+    }
+
+    public static RateLimitPartition<string> CreatePartition(Configuration configuration)
+    {
+        return RateLimitPartition.GetFixedWindowLimiter(string.Empty,
+            _ => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = _configurationSnapshot.CurrentValue.PermitLimit,
+                PermitLimit = configuration.FixedWindowPermitLimit,
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                QueueLimit = _configurationSnapshot.CurrentValue.QueueLimit,
-                Window = new TimeSpan(hours: 0, minutes: 1, seconds: 0),
-                SegmentsPerWindow = 6
-            });;
+                QueueLimit = configuration.FixedWindowQueueLimit,
+                Window = new TimeSpan(hours: 0, minutes: 1, seconds: 0)
+            });
     }
 }

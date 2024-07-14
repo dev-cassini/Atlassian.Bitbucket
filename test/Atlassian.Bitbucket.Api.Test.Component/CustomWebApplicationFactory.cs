@@ -20,8 +20,12 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                     {
                         new("Bitbucket:OAuthBaseUrl", wireMockBaseUrl),
                         new("Bitbucket:ApiBaseUrl", wireMockBaseUrl),
-                        new("RateLimiting:PermitLimit", "999"),
-                        new("RateLimiting:QueueLimit", "999")
+                        new("Bitbucket:Client:Id", "CLIENT_ID"),
+                        new("Bitbucket:Client:Secret", "CLIENT_SECRET"),
+                        new("RateLimiting:FixedWindowPermitLimit", "999"),
+                        new("RateLimiting:FixedWindowQueueLimit", "999"),
+                        new("RateLimiting:ConcurrentPermitLimit", "999"),
+                        new("RateLimiting:ConcurrentQueueLimit", "999")
                     });
             })
             .ConfigureServices(serviceCollection =>

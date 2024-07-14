@@ -1,22 +1,16 @@
 using Atlassian.Bitbucket.Api.Endpoints;
-using Atlassian.Bitbucket.Api.RateLimiting.Policies;
+using Atlassian.Bitbucket.Api.RateLimiting;
 using Atlassian.Bitbucket.Application;
 using Atlassian.Bitbucket.Infrastructure;
 using Atlassian.Bitbucket.Infrastructure.Messaging.MassTransit.Transports.Azure;
-using RateLimiting = Atlassian.Bitbucket.Api.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddOptions<RateLimiting.Configuration>()
-    .Configure(builder.Configuration.GetSection(nameof(RateLimiting)).Bind);
-
-builder.Services
     .AddEndpointsApiExplorer()
-    .AddRateLimiter(rateLimiterOptions =>
-    {
-        rateLimiterOptions.AddPolicy<string, CustomSlidingWindowRateLimiter>("webhooks");
-    })
+    .AddRateLimiter(
+        builder.Configuration,
+        rateLimiterOptions => rateLimiterOptions.ConfigureGlobalRateLimiter())
     .AddApplicationServices(builder.Configuration)
     .AddInfrastructure(configurator =>
     {
@@ -35,12 +29,15 @@ builder.Services
         });
     });
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 app
     .RegisterEndpoints()
     .UseRateLimiter()
-    .UseHttpsRedirection();
+    .UseHttpsRedirection()
+    .UseHealthChecks(new PathString("/health"));
 
 app.Run();
 
