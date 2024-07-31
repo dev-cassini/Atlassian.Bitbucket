@@ -1,3 +1,4 @@
+using Atlassian.Bitbucket.Api.Filters;
 using MediatR;
 
 namespace Atlassian.Bitbucket.Api.Endpoints.Webhooks.PullRequests.Updated;
@@ -11,6 +12,7 @@ public static class WebhookEndpoint
         webApplication.MapPost("/webhooks/pull-requests/updated", Handler)
             .Accepts<PullRequests.Updated.Request>("application/json")
             .AllowAnonymous()
+            .AddEndpointFilter<FailedRequestEndpointFilter>()
             .WithTags(nameof(Workspaces))
             .Produces(StatusCodes.Status204NoContent);
 
